@@ -1,0 +1,27 @@
+{
+  "name": "next-one-api",
+  "description": "SSO/API server for next-one",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/premist/next-one.api.git"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Minku Lee",
+    "url": "https://github.com/premist"
+  },
+  "devDependencies": {
+    "dotenv": "^1.2.0"
+  },
+  "dependencies": {
+    "koa": "^1.1.2",
+    "koa-generic-session": "^1.10.1",
+    "koa-redis": "^1.0.1",
+    "koa-router": "^5.3.0",
+    "koa-mount": "^1.3.0",
+    "koa-bodyparser": "^2.0.1",
+    "grant-koa": "^3.5.3",
+    "redis": "^2.4.2"
+  }
+}
