@@ -90,10 +90,11 @@ var swarmCheckin = function(data) {
 };
 
 var publish = function(data) {
+  var newData = data;
+  newData.reverse_created_at = data.created_at*-1;
+
   // Add reverse_created_at for order by latest records
-  return firebase.child("activities").child(data.travel_id).push(data.merge({
-    reverse_created_at: data.created_at*-1
-  }));
+  return firebase.child("activities").child(data.travel_id).push(newData);
 }
 
 module.exports = checkinProcessor;
