@@ -5,7 +5,6 @@ const path = require("path");
 
 const koa = require("koa");
 const bodyParser = require("koa-bodyparser");
-const koaValidate = require("koa-validate");
 
 const app = koa();
 
@@ -20,7 +19,6 @@ app.keys = [process.env.SESSION_KEY];
 app.use(bodyParser())
    .use(session)
    .use(grant)
-   .use(koaValidate())
    .use(router.routes())
    .use(router.allowedMethods());
 
@@ -29,3 +27,5 @@ var startServer = function() {
   app.listen(port);
   console.log("next-one-api is now running on port " + port);
 }
+
+startServer();
