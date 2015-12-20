@@ -5,14 +5,14 @@ const grant = new Grant({
   "server": {
     "protocol": process.env.NXO_API_PROTOCOL || "http",
     "host": process.env.NXO_API_HOST || "localhost",
-    "callback": "/auth/callback",
+    "callback": "/link/callback",
     "transport": "session",
     "state": true
   },
   "foursquare": {
     "key": process.env.FOURSQUARE_CLIENT_ID,
     "secret": process.env.FOURSQUARE_CLIENT_SECRET,
-    "callback": "/auth/callback/foursquare",
+    "callback": "/link/foursquare/callback",
     "scope": []
   }
 });

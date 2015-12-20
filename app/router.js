@@ -1,13 +1,12 @@
 const router = require("koa-router")();
 
+const linkController = require("./controllers/link_controller");
+
 router.get("/", function*(next) {
   this.body = "Hello";
 });
 
-router.get("/auth/callback/foursquare", function*(next) {
-  // Debug
-  console.log(this.session);
-  this.body = this.session;
-});
+router.get("/link/foursquare", linkController.foursquare);
+router.get("/link/foursquare/callback", linkController.foursquareCallback);
 
 module.exports = router;
