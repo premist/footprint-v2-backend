@@ -90,7 +90,10 @@ var swarmCheckin = function(data) {
 };
 
 var publish = function(data) {
-  return firebase.child("activities").child(data.travel_id).push(data);
+  // Add reverse_created_at for order by latest records
+  return firebase.child("activities").child(data.travel_id).push(data.merge({
+    reverse_created_at: data.created_at*-1
+  }));
 }
 
 module.exports = checkinProcessor;
