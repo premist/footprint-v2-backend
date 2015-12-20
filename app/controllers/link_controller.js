@@ -1,8 +1,9 @@
+const Promise = require("bluebird");
 const firebase = require("../modules/firebase");
 
 exports.foursquare = function*(next) {
   try {
-    yield firebase.authWithCustomTokenAsync(this.query.token);
+    var user = yield firebase.authWithCustomToken(this.query.token);
   } catch(e) {
     this.status = 422;
     this.body = {
@@ -13,12 +14,30 @@ exports.foursquare = function*(next) {
     return;
   }
 
-  this.session.firebase_token = this.query.token;
-  this.status = 301;
+  this.session.user = user;
+  this.status = 302;
   this.redirect("/connect/foursquare");
 };
 
 exports.foursquareCallback = function*(next) {
   console.log(this.session);
-  this.body = "o hai";
+
+  if(this.session.user == undefined) {
+    this.status = 422;
+    this.body = {
+      "success": "false",
+      "error": "Invalid access"
+    }
+
+    return;
+  }
+
+  yield firebase.child("users")
+                .child(this.session.user.uid)
+                .child("private")
+                .child("foursquare_token").set(this.session.grant.response.access_token);
+
+  this.body = {
+    "success": "true"
+  };
 };
