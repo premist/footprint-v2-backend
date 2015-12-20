@@ -29,7 +29,15 @@ queueRef.child("specs").child("default").set({
     return;
   }
 
-  startProcessing();
+  firebase.authWithCustomToken(process.env.FIREBASE_SECRET, function(e, d) {
+    if(e) {
+      console.error("Failed to authenticate with Firebase server.");
+      console.log(e);
+      return;
+    }
+
+    startProcessing();
+  });
 });
 
 var startProcessing = function(e) {

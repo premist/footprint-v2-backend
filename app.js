@@ -11,6 +11,7 @@ const app = koa();
 const router = require("./app/router");
 const grant = require("./app/modules/grant");
 const session = require("./app/modules/session");
+const firebase = require("./app/modules/firebase");
 
 // Set session key
 app.keys = [process.env.SESSION_KEY];
@@ -28,4 +29,8 @@ var startServer = function() {
   console.log("next-one-api is now running on port " + port);
 }
 
-startServer();
+firebase.authWithCustomToken(process.env.FIREBASE_SECRET).then(function(authData) {
+  startServer();
+}).catch(function(e) {
+  console.log(e);
+});
