@@ -14,6 +14,12 @@ const grant = new Grant({
     "secret": process.env.FOURSQUARE_CLIENT_SECRET,
     "callback": "/link/foursquare/callback",
     "scope": []
+  },
+  "twitter": {
+    "key": process.env.TWITTER_KEY,
+    "secret": process.env.TWITTER_SECRET,
+    "callback": "/link/twitter/callback",
+    "scope": []
   }
 });
 
