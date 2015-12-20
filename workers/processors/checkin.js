@@ -82,7 +82,6 @@ var swarmCheckin = function(data) {
 
     return swarm.checkin(newData.venue_id, newData.venue_latitude, newData.venue_longitude, swarmToken);
 
-  // All done (TODO save)
   }).then(function(resp) {
     return new Promise(function(resolve, reject) {
       resolve(newData);
@@ -91,7 +90,7 @@ var swarmCheckin = function(data) {
 };
 
 var publish = function(data) {
-  return firebase.child("activities").push(data);
+  return firebase.child("activities").child(data.travel_id).push(data);
 }
 
 module.exports = checkinProcessor;
