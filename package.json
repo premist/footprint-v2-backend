@@ -24,8 +24,5 @@
     "koa-validate": "^0.2.11",
     "grant-koa": "^3.5.3",
     "redis": "^2.4.2",
-    "firebase": "^2.3.2",
-    "mongoose": "^4.3.3",
-    "scrypt": "^5.4.1"
-  }
+    "firebase": "^2.3.2",  }
 }
