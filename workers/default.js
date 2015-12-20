@@ -14,20 +14,26 @@ require("dotenv").config({ silent: true });
 const Queue = require("firebase-queue");
 const Firebase = require("firebase");
 
-var firebase = new Firebase(process.env.FIREBASE_URL);
-var queueRef = firebase.child("queues/post");
+const firebase = new Firebase(process.env.FIREBASE_URL);
+const queueRef = firebase.child("queues/post");
+
+const checkinProcessor = require("./processors/checkin");
 
 queueRef.child("specs").child("default").set({
   "in_progress_state": "default_in_progress",
   "finished_state": "default_finished",
   "timeout": 20000
-}, startProcessing);
-
-var startProcessing = function(e) {
+}, function(e) {
   if(e) {
     console.error("An error occured while updating worker spec.");
     return;
   }
+
+  startProcessing();
+});
+
+var startProcessing = function(e) {
+  console.log("Started");
 
   var options = {
     "specId": "default",
@@ -36,8 +42,13 @@ var startProcessing = function(e) {
   }
 
   var queue = new Queue(queueRef, options, function(data, progress, resolve, reject) {
+    console.log("New job!");
+
     if(data.type = "checkin") {
-      processCheckin(data).then(function() { resolve(); });
+      checkinProcessor(data).then(function() { resolve(); }).catch(function(e) {
+        console.log(e);
+        reject(e);
+      });
     }
     else {
       reject();
@@ -52,11 +63,3 @@ var startProcessing = function(e) {
     });
   });
 };
-
-var processCheckin(data) {
-  var promise = new Promise(function(resolve, reject) {
-    // TODO
-  });
-
-  return promise;
-}
