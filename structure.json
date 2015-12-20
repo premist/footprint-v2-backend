@@ -35,5 +35,16 @@
         "twitter_secret": "zvcxzxcvzxcvzxcv"
       }
     }
+  },
+  "queues": {
+    "process_post": {
+      "specs": {
+        "default": {
+          "in_progress_state": "default_in_progress",
+          "finished_state": "default_finished",
+          "timeout": 20000
+        }
+      }
+    }
   }
 }
