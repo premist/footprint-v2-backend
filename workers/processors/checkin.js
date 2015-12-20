@@ -1,7 +1,8 @@
+const fs = require("fs");
 const crypto = require("crypto");
 
 const gcs = require("../modules/gcs");
-const bucket = gcs.client.bucket(process.env.NXO_GCS_BUCKET);
+const bucket = process.env.NXO_GCS_BUCKET;
 
 const swarm = require("../modules/swarm");
 const firebase = require("../modules/firebase");
@@ -9,9 +10,7 @@ const firebase = require("../modules/firebase");
 var checkinProcessor = function(data) {
   console.log("Processing checkin..");
 
-  return uploadImage(data).then(function() {
-    return swarmCheckin(data);
-  });
+  return uploadImage(data).then(swarmCheckin).then(publish);
 };
 
 // Adds imagePath to the data
@@ -23,18 +22,24 @@ var uploadImage = function(data) {
     return new Promise(function(resolve, reject) { resolve(data); });
   }
 
-  var binaryImage = new Buffer(data.image, "base64");
+  // Get image and start upload
+  return firebase.child(`media_uploads/${data.image}`).once("value").then(function(base64Image) {
+    var binaryImage = new Buffer(base64Image.val(), "base64");
 
-  var today = new Date();
-  var randomString = crypto.randomBytes(16).toString("hex");
-  var imagePath = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}/${randomString}`;
-  var fullPath = `https://${bucket}.storage.googleapis.com/${imagePath}`;
+    var today = new Date();
+    var randomString = crypto.randomBytes(16).toString("hex");
+    var imagePath = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}/${randomString}`;
 
-  return gcs.uploadFile(binaryImage, bucket, imagePath).then(function(file) {
-    return new Promise(function(resolve, reject) {
-      var newData = data;
-      newData.imagePath = fullPath;
-      resolve(newData);
+    return gcs.uploadFile(binaryImage, bucket, imagePath);
+
+  // Remove base64 image, add url to the new data object and return
+  }).then(function(fullPath) {
+    return firebase.child(`media_uploads/${data.image}`).remove().then(function() {
+      return new Promise(function(resolve, reject) {
+        var newData = data;
+        newData.image = fullPath;
+        resolve(newData);
+      });
     });
   });
 };
@@ -85,5 +90,8 @@ var swarmCheckin = function(data) {
   });
 };
 
+var publish = function(data) {
+  return firebase.child("activities").push(data);
+}
 
 module.exports = checkinProcessor;
