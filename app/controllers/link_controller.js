@@ -1,4 +1,3 @@
-const Promise = require("bluebird");
 const firebase = require("../modules/firebase");
 
 exports.foursquare = function*(next) {
