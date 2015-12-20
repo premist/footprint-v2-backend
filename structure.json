@@ -1,0 +1,39 @@
+{
+  "travel": {
+    "-K4h__9nlXPYgjl4Madq": {
+      "name": "2015 Osaka",
+      "latitude": "37.126",
+      "longitude": "126.543",
+      "owner": "8e1ef0f6-2aa4-4c2f-9f36-b6ba19c72a46"
+    }
+  },
+  "activities": {
+    "-K4h__9nlXPYgjl4Madq": {
+      "-K4kOLUwAFTPJGNJWpmZ": {
+        "type": "post",
+        "content": "asdfasdf fdsafdsafsf",
+        "latitude": "37.126",
+        "longitude": "126.543",
+        "location_str": "Chuo-ku, Japan"
+      },
+      "-K4kOLUwXFTPJGNJWpme": {
+        "type": "checkin",
+        "content": "zxcvzxvzxcv rewqrewqreqwr",
+        "latitude": "37.127",
+        "longitude": "126.532",
+        "location_str": "Chuo-ku, Japan",
+        "venue_name": "関西国際空港 (Kansai International Airport - KIX/RJBB)",
+        "venue_type": "Airport"
+      }
+    }
+  },
+  "users": {
+    "8e1ef0f6-2aa4-4c2f-9f36-b6ba19c72a46": {
+      "private": {
+        "foursquare_token": "asdfasdfasdf",
+        "twitter_token": "fdsafadsfas",
+        "twitter_secret": "zvcxzxcvzxcvzxcv"
+      }
+    }
+  }
+}
