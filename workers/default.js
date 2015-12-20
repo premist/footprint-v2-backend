@@ -38,7 +38,8 @@ var startProcessing = function(e) {
   var options = {
     "specId": "default",
     "numWorkers": 3,
-    "sanitaize": true
+    "sanitaize": true,
+    "retries": 0
   }
 
   var queue = new Queue(queueRef, options, function(data, progress, resolve, reject) {
